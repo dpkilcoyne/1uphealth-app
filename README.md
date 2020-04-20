@@ -1,68 +1,51 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 1upHealth $everything Application
 
-## Available Scripts
+## Setup
+1. Create an application from the [1upHealth Dev Console](https://1up.health/devconsole/). Use `http://localhost:8000` for the app's redirect URL and save the client secret as it will only be shown once.
 
-In the project directory, you can run:
 
-### `npm start`
+2. Clone the repo:
+```
+cd ~/
+git clone https://github.com/dpkilcoyne/1uphealth-app.git
+```
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+3. Setup your MongoDB service. This demo was deployed with MongoDB Atlas. To deploy with Atlas:
+  1. Go to the [Get Started with Atlas](https://docs.atlas.mongodb.com/getting-started/) web page and follow the **Create an Atlas Account** through **Create a Database User for Your Cluster** using the Free Tier choices and a user with admin or R+W privileges.
+  2. Select **Connect** from the **Clusters** view and choose the **Connect Your Application** connection method.
+  3. Copy the connection string and replace `test` with `oneup` (the database name) and `<PASSWORD>` with your username password. This will serve as your `MONGODB_URL`.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. Create a `.env` file in the root directory of the project and add your:
+```
+ONEUP_WEBAPP_CLIENTID="clientid"
+ONEUP_WEBAPP_CLIENTSECRET="clientsecret"
+MONGODB_URL="mongodb_url"
+PORT="proxyserverport"
+```
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. The demo deploy uses [concurrently](https://www.npmjs.com/package/concurrently) to run a React app with a Node.js server proxy.  The server proxy url is stored under `package.json`: `proxy` and the React port is specified at `package.json`:`scripts.start` if you need to modify them.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+6. Install & run the app
+```
+npm install
+npm run dev
+```
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Test Health Systems
+You can test the demo web app with one of these [FHIR health system accounts](https://1up.health/dev/doc/fhir-test-credentials). The current deployment has only been tested with the Epic credentials. Use:
+* username: fhirjason
+* password: epicepic1
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+when you are directed to the 1upHealth portal after entering your username from the application.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Future Improvements
+* Resources tables are currently created on the fly. Their object models are specified on 1upHealth so this information could be used to create normalized tables.
+* Need to handle passwords and user sessions
+* Add nested tables and JSON trees
+* Queries and filtering
+* Support for other EHR portals
